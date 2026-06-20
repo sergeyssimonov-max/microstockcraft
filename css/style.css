@@ -149,7 +149,7 @@ a:focus-visible,
 }
 
 /* ---- Generic page header (sub-pages) ---- */
-.page{padding:56px 0 60px;}
+.page{padding-top:56px;padding-bottom:60px;}
 .kicker{
   font-family:var(--mono);
   font-size:12px;
@@ -367,7 +367,8 @@ a:focus-visible,
   display:flex;
   flex-wrap:wrap;
   gap:40px 56px;
-  padding:64px 0 60px;
+  padding-top:64px;
+  padding-bottom:60px;
   align-items:flex-start;
 }
 .about-photo{
@@ -449,6 +450,6 @@ a:focus-visible,
   .index-desc{flex:1 1 100%;}
   .index-arrow{margin-left:0;}
   .hero{padding:44px 0 32px;}
-  .about{gap:28px;padding:44px 0 48px;}
+  .about{gap:28px;padding-top:44px;padding-bottom:48px;}
   .about-photo{max-width:none;}
 }

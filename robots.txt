@@ -1,0 +1,5 @@
+# robots.txt for microstockcraft.com
+User-agent: *
+Allow: /
+
+Sitemap: https://microstockcraft.com/sitemap.xml

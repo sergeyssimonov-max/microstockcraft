@@ -358,7 +358,6 @@ a:focus-visible,
   font-size:15px;
   line-height:1.6;
   color:var(--muted-2);
-  max-width:52em;
   margin:0 0 18px;
 }
 

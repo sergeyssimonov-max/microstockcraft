@@ -16,17 +16,18 @@
 <meta property="og:title" content="About Vera Lubimova &mdash; MicrostockCraft">
 <meta property="og:description" content="Vera Lubimova is a freelance photographer, illustrator and picture researcher selling through major microstock agencies since 2009.">
 <meta property="og:url" content="https://microstockcraft.com/about.html">
-<meta property="og:image" content="https://microstockcraft.com/og-image.png">
+<meta property="og:image" content="https://microstockcraft.com/og/og-about.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="About Vera Lubimova &mdash; MicrostockCraft">
 <meta name="twitter:description" content="Vera Lubimova is a freelance photographer, illustrator and picture researcher selling through major microstock agencies since 2009.">
-<meta name="twitter:image" content="https://microstockcraft.com/og-image.png">
+<meta name="twitter:image" content="https://microstockcraft.com/og/og-about.png">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="css/style.css">
+<link rel="preload" href="fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css?v=20261028">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"WebSite","@id":"https://microstockcraft.com/#website","url":"https://microstockcraft.com/","name":"MicrostockCraft","description":"Tools, tips and trusted links for microstock contributors and buyers, from a working contributor since 2009.","inLanguage":"en","publisher":{"@id":"https://microstockcraft.com/#vera"}},
@@ -54,7 +55,11 @@
 </header>
 <main class="wrap about">
   <div class="about-photo">
-    <img src="images/researcher.jpg" alt="Vera reading, seen from above, surrounded by scattered printed magazine pages">
+    <picture>
+      <source srcset="images/researcher.avif" type="image/avif">
+      <source srcset="images/researcher.webp" type="image/webp">
+      <img src="images/researcher.jpg" width="720" height="960" decoding="async" fetchpriority="high" alt="Vera reading, seen from above, surrounded by scattered printed magazine pages">
+    </picture>
   </div>
   <div class="about-body">
     <div class="kicker">ABOUT</div>

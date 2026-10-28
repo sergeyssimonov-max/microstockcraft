@@ -1,0 +1,66 @@
+# Deploys the site to the Apache hosting over FTPS on every push to main.
+# No Node.js: plain git + lftp on the runner.
+#
+# Repository secrets (Settings > Secrets and variables > Actions):
+#   FTP_HOST      FTP server name from the hosting control panel
+#   FTP_USER      FTP login
+#   FTP_PASSWORD  FTP password
+#   FTP_DIR       site root on the server, e.g. www/microstockcraft.com
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      FTP_HOST: ${{ secrets.FTP_HOST }}
+      FTP_USER: ${{ secrets.FTP_USER }}
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      FTP_DIR: ${{ secrets.FTP_DIR }}
+    steps:
+      - name: Check secrets
+        id: check
+        run: |
+          if [ -z "$FTP_HOST" ] || [ -z "$FTP_USER" ] || [ -z "$FTP_PASSWORD" ] || [ -z "$FTP_DIR" ]; then
+            echo "::warning::FTP secrets are not set, deploy skipped."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        if: steps.check.outputs.ready == 'true'
+        run: |
+          git clone --depth 1 --branch "$GITHUB_REF_NAME" \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" site
+
+      - name: Install lftp
+        if: steps.check.outputs.ready == 'true'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Upload
+        if: steps.check.outputs.ready == 'true'
+        working-directory: site
+        # No --delete: files on the server that are not in the repository stay untouched.
+        run: |
+          lftp -u "$FTP_USER","$FTP_PASSWORD" "$FTP_HOST" -e "
+            set ftp:ssl-allow true;
+            set net:max-retries 3;
+            mirror --reverse --verbose --parallel=4 \
+              --exclude-glob .git/ \
+              --exclude-glob .github/ \
+              --exclude-glob AUDIT.md \
+              --exclude-glob README.md \
+              . \"$FTP_DIR\";
+            bye"
